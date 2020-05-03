@@ -6,7 +6,7 @@ import json
 import re
 
 def extract_hld(link):
-    link_re = re.compile("^http[s]*://(www\.)*(\w+\.\w+[^/]*)")
+    link_re = re.compile("^http[s]*://(www\.)*(\w+\.\w+[^/?]*)")
     m = link_re.search(link)
     if m:
         return True, m.group(2)
