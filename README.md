@@ -2,8 +2,6 @@
 # 502 Project web graph analysis.
 ### Team Excelsior: Ziyang Zhang, Feiyang Jiang, Xuejun Zhang
 
-![test](graph/s_nes.png)
-
 ## Executive Summary
 
 In this project, our team expected to explore the intrinsic website network structures based on the Common Crawl dataset which consists of monthly web crawler log files. Due to the time constraints of processing this much data, the team decided to study 512 random sampled files (~ 200 GB) out of 56000 files. The key features the team studied are the Indegree/Outdegree, density, the number of edges and vertices, number of connected components and community size by LPA algorithms. 
@@ -27,11 +25,18 @@ Website networks have become an insightful topic in data science. The property a
 ## METHOD
 ### Data Cleaning
 
-![wat](graph/wat.png)
-![json](graph/json.png)
-![srcdst](graph/srcdst.png)
+<div style="text-align:center"><img src="graph/wat.png" alt="wat" width="500" /></div>
 
-The original dataset on [Common Crawl] (https://commoncrawl.org/the-data/get-started/)  has web crawler log files from 2008 to 2020 for each month in different S3 destinations. Logs file in each month exceeds terabytes. The team chooses the crawler log files in 2020 February for this project. There are 56,000 log files in this month and in total compressed size of over 50 terabytes. In order to study the general pattern of the network pattern in these log files, the team randomly sampled 512 log files from 56,000 files. Because log files are in WAT, WARC and WET format for the same content,  a mapper is used to extract the website domain links from the WAT format log files. WAT format files are shown in Figure 1. This mapper first transforms each WAT file to JSON format as shown in Figure 2 and then extracts the sets of domain links in pattern “A B” as shown in Figure 3. “A B” means there is a link from website A to website B. Links between similar domains are deleted, such as “123.sohu.com  456.sohu.com”. This project only considers top level domains, for example, all facebook pages are represented by one node “Facebook”. 
+
+The original dataset on [Common Crawl] (https://commoncrawl.org/the-data/get-started/)  has web crawler log files from 2008 to 2020 for each month in different S3 destinations. The team chooses the crawler log files in 2020 February for this project. There are 56,000 log files in this month and in total compressed size of over 50 terabytes. In order to study the general pattern of the network pattern in these log files, the team randomly sampled 512 log files from 56,000 files. Because log files are in WAT, WARC and WET format for the same content, a mapper is used to extract the website domain links from the WAT format log files. WAT format files are shown in the above figure.
+
+<div style="text-align:center"><img src="graph/json.png" alt="wat" width="500" /></div>
+
+This mapper first transforms each WAT file to JSON format as shown in the above figure and then extracts the sets of domain links in pattern “A B” as shown in the figure below. “A B” means there is a link from website A to website B. Links between similar domains are deleted, such as “123.sohu.com  456.sohu.com”.
+
+<div style="text-align:center"><img src="graph/srcdst.png" alt="wat" width="500" /></div>
+
+ This project only considers top level domains, for example, all facebook pages are represented by one node “Facebook”. 
 
 ### Tools
 
@@ -48,27 +53,26 @@ Before the webgraph analysis, the team has a reasonable assumption that all the 
 ## Results
 
 ### Vertices and Edges
-![nes](graph/s_nes.png)
-![nes](graph/log_nes.png)
-![nes](graph/log4.5_nes.png)
 
-Number of edges to sample size, no scale(left), log scale(middle), log**4.5(right)
+
+
+<img src="graph/s_nes.png" alt="wat" width="250" />
+<img src="graph/log_nes.png" alt="wat" width="250" />
+<img src="graph/log4.5_nes.png" alt="wat" width="270" />
+<div style="text-align:center">**Number of edges to sample size, no scale(left), log scale(middle), log^4.5(right)** </div>
+
 
 The graph on the left is the number of edges of the web graph versus the number of sampled files. This line is not exactly linear and the slope of this curve is slowly decreasing. This result does not exactly match with the initial hypothesis of linearity. The x axis of the one in the middle is log-scaled and that of the one on the right is log-scaled raised to the power of 4.5. The line on the right has a R2 score of 0.9985, which is very close to a linear line. Similar results can be obtained from the analysis on the vertices:
 
-![nes](graph/s_ves.png)
-![nes](graph/log_ves.png)
-![nes](graph/log3.5_ves.png)
+<img src="graph/s_ves.png" alt="wat" width="250" />
+<img src="graph/log_ves.png" alt="wat" width="230" />
+<img src="graph/log3.5_ves.png" alt="wat" width="260" />
+<div style="text-align:center">**Number of vertices to sample size, no scale(left), log scale(middle), log^3.5(right)** </div>
+
 
 Number of vertices to sample size, no scale(left), log scale(middle), log**3.5(right)
 
-This analysis shows that the assumption that all data files are independent are not exactly the real case. Small part of the content in each data file is repeated in other data files as well. Thus, the properties of the graph constructed with sampled files cannot be scaled in a linear relationship with the number of files. The fitted line on the right indicate that the number of edges as a function of the sample size is: 
-
-
-\\[ N =1 \\]
-$$ N =1 $$.
-
-The derivative of this function is negative, which means its increasing rate is getting smaller if this pattern still holds as the size increases to near 56000.
+This analysis shows that the assumption that all data files are independent are not exactly the real case. Small part of the content in each data file is repeated in other data files as well. Thus, the properties of the graph constructed with sampled files cannot be scaled in a linear relationship with the number of files. The fitted line on the right indicate that the number of edges as a function of the sample size is: ![nes](graph/form.png). The derivative of this function is negative, which means its increasing rate is getting smaller if this pattern still holds as the size increases to near 56000.
 
 ![den](graph/den.png)
 
@@ -91,8 +95,11 @@ Surprisingly, the number of connected components and strongly connected componen
 ### Indegree
 
  Indegree is the number of edges entering the nodes in directed graphs. Interpretively, in the team’s web graph analysis, indegree measures the number of websites leads to the specified websites (vertices).
+ 
 
-![den](graph/ind.png)
+<div style="text-align:center"><img src="graph/ind.png" alt="wat" width="400" /></div>
+
+
 
 As shown in the figure, it is found that as the sampled log file size increases exponentially, the indegrees of the websites increases exponentially as well and this aligned with the team’s hypothesis. Social media websites such as facebook, Twitter, Instagram, Youtube have the highest indegree which means lots of other websites lead to social media websites. Because social media websites mainly make money via advertisement ("How Facebook, Twitter, Social Media Make Money From You", 2020), the social media websites have highest indegree implies lots of websites embedded advertisement links on social media platforms. One surprising find is that wordpress.org which is a software website also has very high indegrees. 
 
