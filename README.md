@@ -2,6 +2,10 @@
 # 502 Project web graph analysis.
 ### Team Excelsior: Ziyang Zhang, Feiyang Jiang, Xuejun Zhang
 
+<p align="center">
+  <img src="graph/webgraph.jpg" alt="wat"/>
+</p>
+
 ## Executive Summary
 
 In this project, our team expected to explore the intrinsic website network structures based on the Common Crawl dataset which consists of monthly web crawler log files. Due to the time constraints of processing this much data, the team decided to study 512 random sampled files (~ 200 GB) out of 56000 files. The key features the team studied are the Indegree/Outdegree, density, the number of edges and vertices, number of connected components and community size by LPA algorithms. 
