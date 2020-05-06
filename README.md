@@ -56,7 +56,6 @@ Before the webgraph analysis, the team has a reasonable assumption that all the 
 ### Vertices and Edges
 
 
-
 <img src="graph/s_nes.png" alt="wat" width="250" /><img src="graph/log_nes.png" alt="wat" width="250" />
 <img src="graph/log4.5_nes.png" alt="wat" width="270" />
 
@@ -68,7 +67,7 @@ The graph on the left is the number of edges of the web graph versus the number 
 <img src="graph/s_ves.png" alt="wat" width="250" /><img src="graph/log_ves.png" alt="wat" width="230" />
 <img src="graph/log3.5_ves.png" alt="wat" width="260" />
 
-*Number of vertices to sample size, no scale(left), log scale(middle), log^3.5*
+*Number of vertices to sample size, no scale(left), log scale(middle), log^3.5(right)*
 
 
 This analysis shows that the assumption that all data files are independent are not exactly the real case. Small part of the content in each data file is repeated in other data files as well. Thus, the properties of the graph constructed with sampled files cannot be scaled in a linear relationship with the number of files. The fitted line on the right indicate that the number of edges as a function of the sample size is: ![nes](graph/form.png). The derivative of this function is negative, which means its increasing rate is getting smaller if this pattern still holds as the size increases to near 56000.
