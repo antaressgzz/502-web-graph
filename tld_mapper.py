@@ -6,6 +6,7 @@ import json
 import re
 
 def extract_hld(link):
+    # extract tld pattern
     link_re = re.compile("^http[s]*://(www\.)*(\w+\.\w+[^/?]*)")
     m = link_re.search(link)
     if m:
@@ -17,7 +18,8 @@ def extract_hld(link):
 
     
 for line in sys.stdin:
-    if line.startswith('{'):
+    
+    if line.startswith('{'):  # if json
         meta_data = json.loads(line)
         try:
             links = meta_data['Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links']
